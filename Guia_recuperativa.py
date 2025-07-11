@@ -1,4 +1,13 @@
-class Gen():
+from abc import abstractclassmethod
+from abc import ABCMeta
+
+class EntidadBiologica(metaclass=ABCMeta):
+    @abstractclassmethod
+    def Procesar(self):
+        pass
+
+
+class Gen(EntidadBiologica):
     def __init__(self):
         self.__nombre=None
         self.__longitud=0
@@ -22,16 +31,23 @@ class Gen():
     def obtener_info(self):
         return self.__nombre,self.__longitud,self.__expresion
 
-    def print_Gen(self):
+    def Procesar(self):
         print(f"Nombre: {self.__nombre}. \n longitud: {self.__longitud}. \n Expresion: {self.__expresion}.")    
     
-class Analisis():
+class Analisis(EntidadBiologica):
     def __init__(self):
         self.__resultados=[]
-    def agregar_resultado(self,Nuevo_resultado):
+        self.__nombre=None
+    def agregar_resultado(self,*Nuevo_resultado):
             resultados.append(Nuevo_resultado)
+    def Procesar(self):
+        n=1
+        print(f"Nombre de los analisis: {self.__nombre} \n")
+        for resultado in __resultados:
+            print(f"{n}.{resultado}")
+            n+=1
 
-class Muestra():
+class Muestra(EntidadBiologica):
     def __init__(self):
         self.__nombre=None
         self.__Genes=[]
@@ -47,6 +63,25 @@ class Muestra():
         if isinstance(Nuevo_nombre,str):
             self.__nombre=Nuevo_nombre
         else:
-            print("Error a ingresar nuevo nombre a la muestra")    
+            print("Error a ingresar nuevo nombre a la muestra")
+    def Procesar(self):
+        print(f"Nombre de muestra {self.__nombre} \n")
+        for Gen in self.__Genes:
+            Gen.Procesar()
 
 
+
+Gen1=Gen()
+Gen2=Gen()
+Gen1.set_nombre("Genn1")
+Gen2.set_nombre("Genn2")
+Gen1.set_longitud(3)
+Gen2.set_longitud(3)
+Gen1.set_expresion("AGT")
+Gen2.set_expresion("ATC")
+Muestra1=Muestra()
+Muestra1.set_nombre("Numero uno")
+Muestra1.agregar_Gen(Gen1)
+Muestra1.agregar_Gen(Gen2)
+Muestra1.agregar_Gen(Gen1)
+Muestra1.Procesar()
