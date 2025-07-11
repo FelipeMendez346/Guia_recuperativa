@@ -7,6 +7,11 @@ class EntidadBiologica(metaclass=ABCMeta):
     def procesar(self):
         pass
 
+class Expresion():
+    @abstractclassmethod
+    def exportar_resultado(self):
+        pass
+
 class Gen(EntidadBiologica):
     def __init__(self):
         self.__nombre=None
@@ -39,7 +44,11 @@ class Gen(EntidadBiologica):
         print(f"Nombre: {self.__nombre}\nLongitud: {self.__longitud}\nNivel de Expresion: {self.__nivel_expresion}")
 
     def __str__(self):
-        return str(self.obtener_info())    
+        return str(self.obtener_info())
+    
+
+
+    
     
 class Analisis(EntidadBiologica):
     def __init__(self):
@@ -59,7 +68,12 @@ class Analisis(EntidadBiologica):
             print(f"{n}.{resultado}")
             n+=1
     def __str__(self):
-        return self.__resultados    
+        return self.__resultados
+    
+    def exportar_resultado(self):
+        print(f"[Exportando analisis {self.__nombre}]")
+        for Muestra in self.__resultados:
+            print(f" - {Muestra.procesar()}")     
 
 class Muestra(EntidadBiologica):
     def __init__(self):
@@ -84,7 +98,12 @@ class Muestra(EntidadBiologica):
             gen.procesar()
     
     def __str__(self):
-        return f"Muestra: {self.__nombre}\n  Genes: {[gen.get_nombre() for gen in self.__genes]}"
+        return self.__nombre,[gen.get_nombre() for gen in self.__genes]
+    
+    def exportar_resultado(self):
+        print(f"[Exportando Muestra {self.__nombre}]")
+        for gen in self.__genes:
+            print(f" - {gen.obtener_info()}")
 
 
 
@@ -108,4 +127,5 @@ anailisi.agregar_resultado(Muestra1)
 anailisi.agregar_resultado(Muestra1)
 anailisi.agregar_resultado(Muestra1)
 anailisi.agregar_resultado(Muestra1)
-anailisi.procesar()
+anailisi.exportar_resultado()
+Muestra1.exportar_resultado()
